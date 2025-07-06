@@ -1,0 +1,19 @@
+{
+  "name": "inventory-system",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "version": "1.0.0",
+  "scripts": {
+    "start:client": "npm run dev --workspace=client",
+    "start:server": "npm run dev --workspace=server",
+    "start:all": "concurrently \"npm run dev --workspace=client\" \"npm run dev --workspace=server\""
+  },
+  "dependencies": {
+    "concurrently": "^9.0.1"
+  },
+  "devDependencies": {
+    "lerna": "^8.1.8"
+  }
+}

@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  client:
+    build:
+      context: .
+      dockerfile: packages/client/Dockerfile
+    ports:
+      - "3000:80" # Map localhost:3000 to Nginx port 80 inside container
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: .
+      dockerfile: packages/server/Dockerfile
+    ports:
+      - "5000:5000" # Node.js server exposed here
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/inventory-db
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
